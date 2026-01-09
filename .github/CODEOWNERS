@@ -1,0 +1,45 @@
+# CODEOWNERS file
+# 
+# This file defines code ownership for different parts of the repository.
+# When a pull request is opened, the specified owners will be automatically
+# requested as reviewers.
+#
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Syntax:
+#   <pattern> <owner1> <owner2> ... <ownerN>
+#
+# Patterns support:
+#   - Glob patterns (e.g., *.swift, Models/**)
+#   - @username or @team-name for GitHub users/teams
+#   - Use @org/team-name for organization teams
+
+# Default owners for everything in the repo
+* @imprvhealth
+
+# iOS-specific files
+*.xcodeproj @imprvhealth
+*.xcworkspace @imprvhealth
+*.pbxproj @imprvhealth
+
+# App entry point - critical for review
+DailyReadinessApp.swift @imprvhealth
+
+# Core business logic - requires careful review
+Services/ @imprvhealth
+
+# Models - data structure changes need review
+Models/ @imprvhealth
+
+# Views - UI changes
+Views/ @imprvhealth
+
+# Documentation
+*.md @imprvhealth
+/docs/ @imprvhealth
+
+# Configuration files
+.github/ @imprvhealth
+*.yml @imprvhealth
+*.yaml @imprvhealth
+
