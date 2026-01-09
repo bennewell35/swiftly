@@ -68,22 +68,21 @@ struct ReadinessCalculator {
         }
     }
     
-    /// Returns the SwiftUI Color for a zone.
+    /// Returns the SwiftUI Color for a zone using professional color scheme.
     /// 
-    /// Architecture note: We use SwiftUI system colors that automatically
-    /// adapt to dark mode. System colors like .green, .orange, .red are
-    /// semantically meaningful and look great in both light and dark modes.
+    /// Architecture note: Uses AppColors for consistent, professional styling
+    /// that adapts to both light and dark modes.
     ///
     /// - Parameter zone: The readiness zone
     /// - Returns: A SwiftUI Color appropriate for the zone
     static func color(for zone: ReadinessZone) -> Color {
         switch zone {
         case .trainHard:
-            return .green
+            return AppColors.trainHard
         case .trainModerate:
-            return .orange
+            return AppColors.trainModerate
         case .recovery:
-            return .red
+            return AppColors.recovery
         }
     }
 }

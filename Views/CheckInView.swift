@@ -13,6 +13,7 @@ import SwiftUI
 struct CheckInView: View {
     @ObservedObject var store: CheckInStore
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) var colorScheme
     
     // Local state for form inputs
     // Architecture note: We use optionals to track if a field has been set.
@@ -36,138 +37,214 @@ struct CheckInView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    // Sleep Quality (1-5)
-                    if let value = sleepQuality {
-                        LabeledSlider(
-                            label: "Sleep Quality",
-                            value: Binding(
-                                get: { value },
-                                set: { sleepQuality = $0 }
-                            ),
-                            range: 1...5,
-                            step: 1.0
-                        )
-                    } else {
-                        Button(action: { sleepQuality = 3 }) {
-                            HStack {
-                                Text("Sleep Quality")
-                                Spacer()
-                                Text("Tap to set")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    
-                    // Stress Level (1-5)
-                    if let value = stressLevel {
-                        LabeledSlider(
-                            label: "Stress Level",
-                            value: Binding(
-                                get: { value },
-                                set: { stressLevel = $0 }
-                            ),
-                            range: 1...5,
-                            step: 1.0
-                        )
-                    } else {
-                        Button(action: { stressLevel = 3 }) {
-                            HStack {
-                                Text("Stress Level")
-                                Spacer()
-                                Text("Tap to set")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    
-                    // Muscle Soreness (1-5)
-                    if let value = muscleSoreness {
-                        LabeledSlider(
-                            label: "Muscle Soreness",
-                            value: Binding(
-                                get: { value },
-                                set: { muscleSoreness = $0 }
-                            ),
-                            range: 1...5,
-                            step: 1.0
-                        )
-                    } else {
-                        Button(action: { muscleSoreness = 3 }) {
-                            HStack {
-                                Text("Muscle Soreness")
-                                Spacer()
-                                Text("Tap to set")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    
-                    // Motivation (1-5)
-                    if let value = motivation {
-                        LabeledSlider(
-                            label: "Motivation",
-                            value: Binding(
-                                get: { value },
-                                set: { motivation = $0 }
-                            ),
-                            range: 1...5,
-                            step: 1.0
-                        )
-                    } else {
-                        Button(action: { motivation = 3 }) {
-                            HStack {
-                                Text("Motivation")
-                                Spacer()
-                                Text("Tap to set")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    
-                    // Time Available (0-120 minutes)
-                    if let value = timeAvailable {
-                        LabeledSlider(
-                            label: "Time Available",
-                            value: Binding(
-                                get: { value },
-                                set: { timeAvailable = $0 }
-                            ),
-                            range: 0...120,
-                            step: 5.0,
-                            valueFormatter: { "\($0) min" }
-                        )
-                    } else {
-                        Button(action: { timeAvailable = 30 }) {
-                            HStack {
-                                Text("Time Available")
-                                Spacer()
-                                Text("Tap to set")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                } header: {
-                    Text("Rate Your Day")
-                } footer: {
-                    Text("Adjust each slider to reflect how you're feeling today.")
-                }
+            ZStack {
+                // Gradient background that adapts to light/dark mode
+                AppColors.background(for: colorScheme)
+                    .ignoresSafeArea()
                 
-                Section {
-                    Button(action: submitCheckIn) {
-                        HStack {
-                            Spacer()
-                            Text("Submit Check-In")
-                                .fontWeight(.semibold)
-                            Spacer()
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Header section with glassmorphism
+                        VStack(spacing: 8) {
+                            Text("Rate Your Day")
+                                .font(.system(size: 28, weight: .bold, design: .rounded))
+                                .foregroundColor(AppColors.textPrimary)
+                            
+                            Text("Adjust each slider to reflect how you're feeling today")
+                                .font(.subheadline)
+                                .foregroundColor(AppColors.textSecondary)
+                                .multilineTextAlignment(.center)
                         }
+                        .padding(.top, 8)
+                        .padding(.bottom, 16)
+                        
+                        // Glassmorphic card container
+                        VStack(spacing: 24) {
+                            // Sleep Quality (1-5)
+                            if let value = sleepQuality {
+                                LabeledSlider(
+                                    label: "Sleep Quality",
+                                    value: Binding(
+                                        get: { value },
+                                        set: { sleepQuality = $0 }
+                                    ),
+                                    range: 1...5,
+                                    step: 1.0
+                                )
+                            } else {
+                                Button(action: { sleepQuality = 3 }) {
+                                    HStack {
+                                        Text("Sleep Quality")
+                                            .font(.headline)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Spacer()
+                                        Text("Tap to set")
+                                            .font(.subheadline)
+                                            .foregroundColor(AppColors.textSecondary)
+                                    }
+                                    .padding(.vertical, 12)
+                                }
+                            }
+                            
+                            Divider()
+                                .background(AppColors.textSecondary.opacity(0.3))
+                            
+                            // Stress Level (1-5)
+                            if let value = stressLevel {
+                                LabeledSlider(
+                                    label: "Stress Level",
+                                    value: Binding(
+                                        get: { value },
+                                        set: { stressLevel = $0 }
+                                    ),
+                                    range: 1...5,
+                                    step: 1.0
+                                )
+                            } else {
+                                Button(action: { stressLevel = 3 }) {
+                                    HStack {
+                                        Text("Stress Level")
+                                            .font(.headline)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Spacer()
+                                        Text("Tap to set")
+                                            .font(.subheadline)
+                                            .foregroundColor(AppColors.textSecondary)
+                                    }
+                                    .padding(.vertical, 12)
+                                }
+                            }
+                            
+                            Divider()
+                                .background(AppColors.textSecondary.opacity(0.3))
+                            
+                            // Muscle Soreness (1-5)
+                            if let value = muscleSoreness {
+                                LabeledSlider(
+                                    label: "Muscle Soreness",
+                                    value: Binding(
+                                        get: { value },
+                                        set: { muscleSoreness = $0 }
+                                    ),
+                                    range: 1...5,
+                                    step: 1.0
+                                )
+                            } else {
+                                Button(action: { muscleSoreness = 3 }) {
+                                    HStack {
+                                        Text("Muscle Soreness")
+                                            .font(.headline)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Spacer()
+                                        Text("Tap to set")
+                                            .font(.subheadline)
+                                            .foregroundColor(AppColors.textSecondary)
+                                    }
+                                    .padding(.vertical, 12)
+                                }
+                            }
+                            
+                            Divider()
+                                .background(AppColors.textSecondary.opacity(0.3))
+                            
+                            // Motivation (1-5)
+                            if let value = motivation {
+                                LabeledSlider(
+                                    label: "Motivation",
+                                    value: Binding(
+                                        get: { value },
+                                        set: { motivation = $0 }
+                                    ),
+                                    range: 1...5,
+                                    step: 1.0
+                                )
+                            } else {
+                                Button(action: { motivation = 3 }) {
+                                    HStack {
+                                        Text("Motivation")
+                                            .font(.headline)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Spacer()
+                                        Text("Tap to set")
+                                            .font(.subheadline)
+                                            .foregroundColor(AppColors.textSecondary)
+                                    }
+                                    .padding(.vertical, 12)
+                                }
+                            }
+                            
+                            Divider()
+                                .background(AppColors.textSecondary.opacity(0.3))
+                            
+                            // Time Available (0-120 minutes)
+                            if let value = timeAvailable {
+                                LabeledSlider(
+                                    label: "Time Available",
+                                    value: Binding(
+                                        get: { value },
+                                        set: { timeAvailable = $0 }
+                                    ),
+                                    range: 0...120,
+                                    step: 5.0,
+                                    valueFormatter: { "\($0) min" }
+                                )
+                            } else {
+                                Button(action: { timeAvailable = 30 }) {
+                                    HStack {
+                                        Text("Time Available")
+                                            .font(.headline)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Spacer()
+                                        Text("Tap to set")
+                                            .font(.subheadline)
+                                            .foregroundColor(AppColors.textSecondary)
+                                    }
+                                    .padding(.vertical, 12)
+                                }
+                            }
+                        }
+                        .padding(24)
+                        .background(
+                            RoundedRectangle(cornerRadius: 24)
+                                .fill(AppColors.glassMaterial(for: colorScheme))
+                                .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
+                        )
+                        .padding(.horizontal)
+                        
+                        // Submit button with glassmorphism
+                        Button(action: submitCheckIn) {
+                            Text("Submit Check-In")
+                                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [AppColors.primary, AppColors.primaryDark],
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
+                                        .shadow(color: AppColors.primary.opacity(0.4), radius: 12, x: 0, y: 6)
+                                )
+                        }
+                        .disabled(!isFormValid)
+                        .opacity(isFormValid ? 1.0 : 0.6)
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                        
+                        Spacer()
+                            .frame(height: 40)
                     }
-                    .disabled(!isFormValid)
+                    .padding(.vertical)
                 }
             }
             .navigationTitle("Daily Check-In")
             .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(AppColors.glassMaterial(for: colorScheme), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
     

@@ -35,30 +35,45 @@ struct DailyReadinessApp: App {
 /// the check-in form or the result, depending on whether a check-in exists today.
 struct MainTabView: View {
     @EnvironmentObject var store: CheckInStore
+    @Environment(\.colorScheme) var colorScheme
     @State private var showCheckIn = false
     @State private var showResult = false
     @State private var todaysCheckIn: DailyCheckIn?
     
     var body: some View {
-        TabView {
-            // Check-In Tab
-            CheckInHomeView(
-                showCheckIn: $showCheckIn,
-                showResult: $showResult,
-                todaysCheckIn: $todaysCheckIn
-            )
-            .tabItem {
-                Label("Check-In", systemImage: "checkmark.circle.fill")
-            }
+        ZStack {
+            // Professional background for entire app
+            AppColors.background(for: colorScheme)
+                .ignoresSafeArea()
             
-            // History Tab
-            HistoryView(store: store)
+            TabView {
+                // Check-In Tab
+                CheckInHomeView(
+                    showCheckIn: $showCheckIn,
+                    showResult: $showResult,
+                    todaysCheckIn: $todaysCheckIn
+                )
                 .tabItem {
-                    Label("History", systemImage: "chart.line.uptrend.xyaxis")
+                    Label("Check-In", systemImage: "checkmark.circle.fill")
                 }
+                
+                // History Tab
+                HistoryView(store: store)
+                    .tabItem {
+                        Label("History", systemImage: "chart.line.uptrend.xyaxis")
+                    }
+            }
+            .tint(AppColors.primary)
         }
         .sheet(isPresented: $showCheckIn) {
             CheckInView(store: store)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+                .presentationBackground {
+                    // Override default white sheet background with professional gradient
+                    AppColors.background(for: colorScheme)
+                        .ignoresSafeArea(.all)
+                }
                 .onDisappear {
                     // When check-in sheet dismisses, check if we should show result
                     if let today = store.checkIns.first, today.isToday {
@@ -76,8 +91,17 @@ struct MainTabView: View {
                                 Button("Done") {
                                     showResult = false
                                 }
+                                .fontWeight(.semibold)
+                                .foregroundColor(AppColors.primary)
                             }
                         }
+                }
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+                .presentationBackground {
+                    // Override default white sheet background with professional gradient
+                    AppColors.background(for: colorScheme)
+                        .ignoresSafeArea(.all)
                 }
             }
         }
@@ -108,38 +132,48 @@ struct CheckInHomeView: View {
         store.checkIns.first { $0.isToday }
     }
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 32) {
-                    Spacer()
-                        .frame(height: 40)
-                    
-                    if hasCheckInToday, let checkIn = todaysResult {
-                        // Show today's result
-                        TodayResultCard(checkIn: checkIn) {
-                            showResult = true
-                            todaysCheckIn = checkIn
+            ZStack {
+                AppColors.background(for: colorScheme)
+                    .ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 32) {
+                        Spacer()
+                            .frame(height: 40)
+                        
+                        if hasCheckInToday, let checkIn = todaysResult {
+                            // Show today's result
+                            TodayResultCard(checkIn: checkIn) {
+                                showResult = true
+                                todaysCheckIn = checkIn
+                            }
+                        } else {
+                            // Show prompt to check in
+                            EmptyCheckInPrompt {
+                                showCheckIn = true
+                            }
                         }
-                    } else {
-                        // Show prompt to check in
-                        EmptyCheckInPrompt {
-                            showCheckIn = true
-                        }
+                        
+                        Spacer()
                     }
-                    
-                    Spacer()
+                    .padding()
                 }
-                .padding()
             }
             .navigationTitle("Daily Readiness")
             .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(AppColors.glassMaterial(for: colorScheme), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if !hasCheckInToday {
                         Button(action: { showCheckIn = true }) {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title3)
+                                .foregroundColor(AppColors.primary)
                         }
                     }
                 }
@@ -148,10 +182,11 @@ struct CheckInHomeView: View {
     }
 }
 
-/// Card displaying today's readiness result.
+/// Card displaying today's readiness result with glassmorphism.
 struct TodayResultCard: View {
     let checkIn: DailyCheckIn
     let onTap: () -> Void
+    @Environment(\.colorScheme) var colorScheme
     
     private var score: Int {
         ReadinessCalculator.calculateScore(for: checkIn)
@@ -167,74 +202,122 @@ struct TodayResultCard: View {
     
     private var zoneColor: Color {
         ReadinessCalculator.color(for: zone)
-            .opacity(0.2)
     }
     
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 24) {
                 Text("Today's Readiness")
-                    .font(.headline)
-                    .foregroundColor(.secondary)
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundColor(AppColors.textSecondary)
+                    .tracking(1.0)
+                    .textCase(.uppercase)
                 
                 Text("\(score)")
-                    .font(.system(size: 72, weight: .bold, design: .rounded))
-                    .foregroundColor(.primary)
+                    .font(.system(size: 80, weight: .bold, design: .rounded))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [zoneColor, zoneColor.opacity(0.7)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .shadow(color: zoneColor.opacity(0.3), radius: 10, x: 0, y: 5)
                 
                 Text(recommendation)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
+                    .font(.system(size: 22, weight: .bold, design: .rounded))
+                    .foregroundColor(AppColors.textPrimary)
                 
                 Text("Tap to view details")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundColor(AppColors.textSecondary)
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 40)
+            .padding(.vertical, 48)
+            .padding(.horizontal, 32)
             .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(zoneColor)
+                RoundedRectangle(cornerRadius: 28)
+                    .fill(AppColors.glassMaterial(for: colorScheme))
+                    .shadow(color: .black.opacity(0.1), radius: 30, x: 0, y: 15)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 28)
+                    .stroke(
+                        LinearGradient(
+                            colors: [zoneColor.opacity(0.4), Color.clear],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 2
+                    )
             )
         }
         .buttonStyle(.plain)
     }
 }
 
-/// Prompt to complete today's check-in.
+/// Prompt to complete today's check-in with glassmorphism.
 struct EmptyCheckInPrompt: View {
     let onTap: () -> Void
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        VStack(spacing: 24) {
-            Image(systemName: "checkmark.circle")
-                .font(.system(size: 60))
-                .foregroundColor(.blue)
+        VStack(spacing: 28) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 64))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [AppColors.primary, AppColors.primaryDark],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .shadow(color: AppColors.primary.opacity(0.3), radius: 15, x: 0, y: 8)
             
-            Text("Ready to Check In?")
-                .font(.title)
-                .fontWeight(.semibold)
-            
-            Text("Answer 5 quick questions to get your daily readiness score and training recommendation.")
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+            VStack(spacing: 12) {
+                Text("Ready to Check In?")
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .foregroundColor(AppColors.textPrimary)
+                
+                Text("Answer 5 quick questions to get your daily readiness score and training recommendation.")
+                    .font(.system(size: 16, weight: .regular, design: .default))
+                    .foregroundColor(AppColors.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4)
+            }
+            .padding(.horizontal)
             
             Button(action: onTap) {
                 Text("Start Check-In")
-                    .font(.headline)
+                    .font(.system(size: 18, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .padding()
+                    .padding(.vertical, 16)
                     .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(.blue)
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(
+                                LinearGradient(
+                                    colors: [AppColors.primary, AppColors.primaryDark],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .shadow(color: AppColors.primary.opacity(0.4), radius: 12, x: 0, y: 6)
                     )
             }
             .padding(.horizontal)
         }
-        .padding()
+        .padding(32)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 28)
+                .fill(AppColors.glassMaterial(for: colorScheme))
+                .shadow(color: .black.opacity(0.1), radius: 30, x: 0, y: 15)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 28)
+                .stroke(AppColors.primary.opacity(0.2), lineWidth: 1)
+        )
     }
 }
 

@@ -34,22 +34,30 @@ struct LabeledSlider: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Label row with current value
+        VStack(alignment: .leading, spacing: 12) {
+            // Label row with current value - professional styling
             HStack {
                 Text(label)
-                    .font(.headline)
+                    .font(.system(size: 17, weight: .semibold, design: .rounded))
+                    .foregroundColor(AppColors.textPrimary)
                 Spacer()
                 Text(valueFormatter(Int(value)))
-                    .font(.headline)
-                    .foregroundColor(.secondary)
+                    .font(.system(size: 17, weight: .bold, design: .rounded))
+                    .foregroundColor(AppColors.primary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(
+                        Capsule()
+                            .fill(AppColors.primary.opacity(0.15))
+                    )
             }
             
-            // Slider with step control
+            // Slider with professional styling
             Slider(value: $value, in: range, step: step)
-                .tint(.blue)  // System blue adapts to dark mode
+                .tint(AppColors.primary)
+                .accentColor(AppColors.primary)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 8)
     }
 }
 
