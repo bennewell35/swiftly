@@ -275,7 +275,9 @@ struct CheckInView: View {
         store.addCheckIn(checkIn)
         
         // Provide haptic feedback
+        // FIX: Call prepare() before impactOccurred() to avoid Taptic Engine latency
         let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
         generator.impactOccurred()
         
         // Dismiss this view (will show result in parent navigation)
