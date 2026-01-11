@@ -7,18 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05E9701A4A64FDB2D76DF8D9 /* ReadinessCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6852F537B3B73A2D6158992 /* ReadinessCalculatorTests.swift */; };
 		127227A93D6BAFA5165ED01F /* DailyCheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38D9DD37EDBB17B8FB923D /* DailyCheckIn.swift */; };
+		136B16DBA9CB2FF04B9E0612 /* CheckInStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB2DD3BFA771C6E18F1B8ED /* CheckInStoreTests.swift */; };
 		5009BFE653D0B49EB2689854 /* LabeledSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FAE1317FD238494FF90A38 /* LabeledSlider.swift */; };
 		56E994A2C5119A0A6C90AD08 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77E0DA507DB37D686212B4E /* HistoryView.swift */; };
 		684CD102916981A1E362DCF5 /* ReadinessCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701D069B49D89E5ABDDE8710 /* ReadinessCalculator.swift */; };
 		69E543211DC730F3C26AA9DC /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1383043B68772368FBFA812 /* CheckInView.swift */; };
 		72D4E934CC76F9A05D299ED2 /* setup-project.sh in Resources */ = {isa = PBXBuildFile; fileRef = C9C639DC988D634309DE563F /* setup-project.sh */; };
+		9D12FBBAD63E62C3C6655FCE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A07B48F28827B3E514A7B325 /* README.md */; };
 		A3E5B72FE1523643D6FB915F /* DailyReadiness.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = A620525D80DC0C1542CA65EE /* DailyReadiness.xcodeproj */; };
+		D17F0FCD63B16900ADD78C89 /* DailyCheckInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB156DB43E83C3270CF8BF14 /* DailyCheckInTests.swift */; };
 		D7319303FCE97C8782F4F42C /* DailyReadinessApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F407187F7DF9436F19571 /* DailyReadinessApp.swift */; };
 		E56934765915361F703BC68F /* CheckInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7D291C40A79DC3AFEF28E /* CheckInStore.swift */; };
 		E66E87EF89C75DF847F92375 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECAA101250C411648AC79E7 /* ResultView.swift */; };
 		F294F067D7F82E365E4B8043 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC738EBFBD571E5A1DBF706 /* AppColors.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CF92C2BBD771B4F033AA7362 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06D2CC963DCCF815919AF8DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DE5FACF11F278ECD55FA692;
+			remoteInfo = DailyReadiness;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		05904DD6E905DA3417255F2D /* DailyReadiness.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DailyReadiness.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -28,16 +42,22 @@
 		6A38D9DD37EDBB17B8FB923D /* DailyCheckIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCheckIn.swift; sourceTree = "<group>"; };
 		701D069B49D89E5ABDDE8710 /* ReadinessCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessCalculator.swift; sourceTree = "<group>"; };
 		847F407187F7DF9436F19571 /* DailyReadinessApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReadinessApp.swift; sourceTree = "<group>"; };
+		A07B48F28827B3E514A7B325 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A620525D80DC0C1542CA65EE /* DailyReadiness.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = DailyReadiness.xcodeproj; sourceTree = "<group>"; };
 		B5B47DD3E4A7BD4F82DC6844 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BEC738EBFBD571E5A1DBF706 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		C26BD53C4FBB2B7A018F5A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C77E0DA507DB37D686212B4E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		C9C639DC988D634309DE563F /* setup-project.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "setup-project.sh"; sourceTree = "<group>"; };
+		DB156DB43E83C3270CF8BF14 /* DailyCheckInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCheckInTests.swift; sourceTree = "<group>"; };
+		DDB2DD3BFA771C6E18F1B8ED /* CheckInStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInStoreTests.swift; sourceTree = "<group>"; };
+		E20764D73F3537B17872306A /* DailyReadinessTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DailyReadinessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1383043B68772368FBFA812 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
+		F6852F537B3B73A2D6158992 /* ReadinessCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadinessCalculatorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		167A0C0F2F11B02800700A92 /* Products */ = {
+		167A0C122F13C05500700A92 /* Products */ = {
 			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
@@ -62,10 +82,23 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		8486AEB8853A8E928DC5B6D1 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				DDB2DD3BFA771C6E18F1B8ED /* CheckInStoreTests.swift */,
+				DB156DB43E83C3270CF8BF14 /* DailyCheckInTests.swift */,
+				C26BD53C4FBB2B7A018F5A7B /* Info.plist */,
+				F6852F537B3B73A2D6158992 /* ReadinessCalculatorTests.swift */,
+				A07B48F28827B3E514A7B325 /* README.md */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		9C206AF1E587448A8C6212CA /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				05904DD6E905DA3417255F2D /* DailyReadiness.app */,
+				E20764D73F3537B17872306A /* DailyReadinessTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,6 +138,7 @@
 				2BC54D6DE6F1B04F60A90053 /* Models */,
 				BD0B9F1043A151648CA675A1 /* Services */,
 				21ECB17053736D38228A4E0F /* swiftly */,
+				8486AEB8853A8E928DC5B6D1 /* Tests */,
 				C16E8A47A28481AAE8F4908E /* Views */,
 				9C206AF1E587448A8C6212CA /* Products */,
 			);
@@ -131,6 +165,25 @@
 			productReference = 05904DD6E905DA3417255F2D /* DailyReadiness.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A5791A4F6B5BC9575B073DA0 /* DailyReadinessTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3335CA9D46A0F5B3E90D4E0E /* Build configuration list for PBXNativeTarget "DailyReadinessTests" */;
+			buildPhases = (
+				BF53F869778475639F1695E4 /* Sources */,
+				D6E6EDBC37150EB17D04767E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2A4AF69C5EBFE228DA4B055 /* PBXTargetDependency */,
+			);
+			name = DailyReadinessTests;
+			packageProductDependencies = (
+			);
+			productName = DailyReadinessTests;
+			productReference = E20764D73F3537B17872306A /* DailyReadinessTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -153,13 +206,14 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 167A0C0F2F11B02800700A92 /* Products */;
+					ProductGroup = 167A0C122F13C05500700A92 /* Products */;
 					ProjectRef = A620525D80DC0C1542CA65EE /* DailyReadiness.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				6DE5FACF11F278ECD55FA692 /* DailyReadiness */,
+				A5791A4F6B5BC9575B073DA0 /* DailyReadinessTests */,
 			);
 		};
 /* End PBXProject section */
@@ -171,6 +225,14 @@
 			files = (
 				A3E5B72FE1523643D6FB915F /* DailyReadiness.xcodeproj in Resources */,
 				72D4E934CC76F9A05D299ED2 /* setup-project.sh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6E6EDBC37150EB17D04767E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D12FBBAD63E62C3C6655FCE /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +255,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BF53F869778475639F1695E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				136B16DBA9CB2FF04B9E0612 /* CheckInStoreTests.swift in Sources */,
+				D17F0FCD63B16900ADD78C89 /* DailyCheckInTests.swift in Sources */,
+				05E9701A4A64FDB2D76DF8D9 /* ReadinessCalculatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F2A4AF69C5EBFE228DA4B055 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DE5FACF11F278ECD55FA692 /* DailyReadiness */;
+			targetProxy = CF92C2BBD771B4F033AA7362 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		12A5AF32735BE98CDC22C441 /* Debug */ = {
@@ -265,6 +345,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -284,6 +365,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -296,6 +378,25 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		A0915DC209CBEB6B64EDA9F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.imprvhealth.DailyReadinessTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DailyReadiness.app/DailyReadiness";
+			};
+			name = Debug;
 		};
 		A889C11B623045D22A3EE8B3 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -353,6 +454,25 @@
 			};
 			name = Release;
 		};
+		EAC660DE6CEBD561D8468EC5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.imprvhealth.DailyReadinessTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DailyReadiness.app/DailyReadiness";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -361,6 +481,15 @@
 			buildConfigurations = (
 				12A5AF32735BE98CDC22C441 /* Debug */,
 				A889C11B623045D22A3EE8B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3335CA9D46A0F5B3E90D4E0E /* Build configuration list for PBXNativeTarget "DailyReadinessTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0915DC209CBEB6B64EDA9F8 /* Debug */,
+				EAC660DE6CEBD561D8468EC5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

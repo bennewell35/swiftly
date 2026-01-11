@@ -1,0 +1,49 @@
+# Gemini Code Assist Configuration
+# This file configures how Gemini Code Assist reviews your code
+
+reviews:
+  # Enable automatic reviews on pull requests
+  auto_review: true
+  
+  # Minimum lines changed to trigger automatic review
+  # Set to 0 to review all PRs
+  min_lines: 10
+  
+  # Focus areas for code review
+  # Gemini will pay special attention to these aspects
+  focus:
+    - swift_best_practices
+    - swiftui_patterns
+    - architecture
+    - testing
+    - error_handling
+    - performance
+    - security
+  
+  # File patterns to exclude from review
+  exclude:
+    - "*.xcodeproj/**"
+    - "*.xcworkspace/**"
+    - "Pods/**"
+    - "DerivedData/**"
+    - "build/**"
+    - ".build/**"
+    - "*.generated.swift"
+    - "Package.resolved"
+  
+  # Languages to focus on
+  languages:
+    - swift
+    - objective-c  # If any Objective-C code exists
+  
+  # Custom instructions for this project
+  instructions: |
+    This is a Swift/iOS app using SwiftUI.
+    - Focus on SwiftUI best practices (@State, @StateObject, @ObservedObject patterns)
+    - Check for proper error handling
+    - Verify test coverage
+    - Ensure proper separation of concerns (Models, Views, Services)
+    - Check for memory leaks and retain cycles
+    - Verify async/await patterns are correct
+    - Ensure UI code is on MainActor
+

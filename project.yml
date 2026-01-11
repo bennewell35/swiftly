@@ -25,6 +25,9 @@ targets:
           - "LOCAL_OPTIONS.md"
           - "REACT_NATIVE_VS_SWIFT.md"
           - "QUICK_START.md"
+          - "Tests/**"
+          - "SwiftExperiment/**"
+          - "JEST_AND_GEMINI_SETUP.md"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.imprvhealth.DailyReadiness
@@ -34,15 +37,37 @@ targets:
         SWIFT_EMIT_LOC_STRINGS: "YES"
         GENERATE_INFOPLIST_FILE: "YES"
 
+  DailyReadinessTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Tests
+    dependencies:
+      - target: DailyReadiness
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.imprvhealth.DailyReadinessTests
+        INFOPLIST_FILE: Tests/Info.plist
+        SWIFT_VERSION: "5.9"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+
 schemes:
   DailyReadiness:
     build:
       targets:
         DailyReadiness: all
+        DailyReadinessTests: [test]
     run:
       config: Debug
     test:
       config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - DailyReadiness
+      targets:
+        - name: DailyReadinessTests
+          parallelizable: true
     archive:
       config: Release
 

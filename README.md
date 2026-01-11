@@ -70,6 +70,51 @@ This app follows a simple, pragmatic architecture:
 - **Component-Based UI**: Reusable components for maintainability
 - **One Check-In Per Day**: Prevents duplicate entries for the same calendar day
 
+## Testing
+
+This project uses **XCTest** for unit testing. Tests are located in the `Tests/` directory.
+
+### Running Tests
+
+**In Xcode:**
+- Press `Cmd + U` to run all tests
+- Or use Product → Test menu
+
+**Command Line:**
+```bash
+xcodebuild test \
+  -project DailyReadiness.xcodeproj \
+  -scheme DailyReadiness \
+  -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.2'
+```
+
+See [Tests/README.md](Tests/README.md) for more details.
+
+### Test Coverage
+
+- ✅ ReadinessCalculator (score calculation, zones, recommendations)
+- ✅ CheckInStore (persistence, retrieval, business logic)
+- ✅ DailyCheckIn (model, date handling, Codable)
+
+## Code Review
+
+This repository uses **Gemini Code Assist** for AI-powered code reviews on pull requests.
+
+### Setup
+
+1. Install from [GitHub Marketplace](https://github.com/marketplace/gemini-code-assist)
+2. Select this repository
+3. Reviews will automatically appear on new pull requests
+
+See [.github/GEMINI_CODE_REVIEW_SETUP.md](.github/GEMINI_CODE_REVIEW_SETUP.md) for detailed setup instructions.
+
+### Manual Review
+
+Comment on a pull request:
+```
+/gemini review
+```
+
 ## Development
 
 ### Branch Strategy
@@ -83,6 +128,10 @@ This app follows a simple, pragmatic architecture:
 - Use meaningful variable and function names
 - Include inline comments for non-obvious logic
 - Keep views focused on presentation, logic in services
+
+### CI/CD
+
+Tests run automatically on push/PR via GitHub Actions (see `.github/workflows/ios-ci.yml`)
 
 ## License
 
