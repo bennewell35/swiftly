@@ -76,9 +76,14 @@ struct MainTabView: View {
                 }
                 .onDisappear {
                     // When check-in sheet dismisses, check if we should show result
-                    if let today = store.checkIns.first, today.isToday {
-                        todaysCheckIn = today
-                        showResult = true
+                    // FIX: Delay the second sheet presentation to avoid SwiftUI
+                    // race condition where two sheets transition simultaneously.
+                    // This allows the first sheet's dismissal animation to complete.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        if let today = store.checkIns.first, today.isToday {
+                            todaysCheckIn = today
+                            showResult = true
+                        }
                     }
                 }
         }

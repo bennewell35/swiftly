@@ -1,5 +1,14 @@
 import Foundation
 
+/// Cached DateFormatter for efficient date formatting.
+/// DateFormatter is expensive to create, so we reuse a single instance.
+private let sharedDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    formatter.timeStyle = .none
+    return formatter
+}()
+
 /// Represents a single daily readiness check-in.
 /// 
 /// Architecture note: This model is intentionally simple and pure data.
@@ -41,11 +50,9 @@ struct DailyCheckIn: Codable, Identifiable {
     
     /// Returns a formatted date string for display.
     /// Example: "Jan 15, 2024"
+    /// Uses cached DateFormatter for performance.
     var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: date)
+        sharedDateFormatter.string(from: date)
     }
 }
 
