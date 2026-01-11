@@ -37,7 +37,6 @@ struct MainTabView: View {
     @EnvironmentObject var store: CheckInStore
     @Environment(\.colorScheme) var colorScheme
     @State private var showCheckIn = false
-    @State private var showResult = false
     @State private var todaysCheckIn: DailyCheckIn?
     
     var body: some View {
@@ -50,7 +49,6 @@ struct MainTabView: View {
                 // Check-In Tab
                 CheckInHomeView(
                     showCheckIn: $showCheckIn,
-                    showResult: $showResult,
                     todaysCheckIn: $todaysCheckIn
                 )
                 .tabItem {
@@ -82,32 +80,29 @@ struct MainTabView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                         if let today = store.checkIns.first, today.isToday {
                             todaysCheckIn = today
-                            showResult = true
                         }
                     }
                 }
         }
-        .sheet(isPresented: $showResult) {
-            if let checkIn = todaysCheckIn {
-                NavigationStack {
-                    ResultView(checkIn: checkIn)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button("Done") {
-                                    showResult = false
-                                }
-                                .fontWeight(.semibold)
-                                .foregroundColor(AppColors.primary)
+        .sheet(item: $todaysCheckIn) { checkIn in
+            NavigationStack {
+                ResultView(checkIn: checkIn)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("Done") {
+                                todaysCheckIn = nil
                             }
+                            .fontWeight(.semibold)
+                            .foregroundColor(AppColors.primary)
                         }
-                }
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
-                .presentationBackground {
-                    // Override default white sheet background with professional gradient
-                    AppColors.background(for: colorScheme)
-                        .ignoresSafeArea(.all)
-                }
+                    }
+            }
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .presentationBackground {
+                // Override default white sheet background with professional gradient
+                AppColors.background(for: colorScheme)
+                    .ignoresSafeArea(.all)
             }
         }
         .onAppear {
@@ -126,7 +121,6 @@ struct MainTabView: View {
 struct CheckInHomeView: View {
     @EnvironmentObject var store: CheckInStore
     @Binding var showCheckIn: Bool
-    @Binding var showResult: Bool
     @Binding var todaysCheckIn: DailyCheckIn?
     
     private var hasCheckInToday: Bool {
@@ -153,7 +147,6 @@ struct CheckInHomeView: View {
                         if hasCheckInToday, let checkIn = todaysResult {
                             // Show today's result
                             TodayResultCard(checkIn: checkIn) {
-                                showResult = true
                                 todaysCheckIn = checkIn
                             }
                         } else {
