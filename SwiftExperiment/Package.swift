@@ -51,7 +51,6 @@ let package = Package(
                 // This reduces app size and build time.
                 .product(name: "Amplify", package: "amplify-swift"),
                 .product(name: "AWSCognitoAuthPlugin", package: "amplify-swift"),
-                .product(name: "AWSAPIPlugin", package: "amplify-swift"),
             ],
             path: "Sources"
         ),

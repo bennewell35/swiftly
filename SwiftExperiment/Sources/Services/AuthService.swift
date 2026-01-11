@@ -36,14 +36,9 @@ class AuthService: ObservableObject {
     /// Error message to display to user
     @Published var errorMessage: String?
 
-    // MARK: - TEACHING: Mock Mode
-    /// In development without AWS config, we use mock authentication.
-    /// This allows testing the full UI flow without backend setup.
-    private var useMockAuth = true
-
     init() {
-        // Check if we have real Amplify configuration
-        checkAuthStatus()
+        // Check current authentication status on app launch
+        checkSession()
     }
 
     // MARK: - Public API
@@ -58,31 +53,25 @@ class AuthService: ObservableObject {
     /// COMMON MISTAKE FROM JS:
     /// You can't call async functions directly in init() or body.
     /// You must wrap them in Task { } or use .task { } modifier on views.
-    func checkAuthStatus() {
+    func checkSession() {
         Task {
             isLoading = true
             defer { isLoading = false }  // TEACHING: defer runs when scope exits
 
-            if useMockAuth {
-                // Mock: Check if we have a stored session
-                isAuthenticated = UserDefaults.standard.bool(forKey: "mockIsAuthenticated")
-                if isAuthenticated {
-                    currentUser = MockAuthUser(username: "demo@example.com")
-                }
-                return
-            }
-
-            // Real Amplify Auth
             do {
                 let session = try await Amplify.Auth.fetchAuthSession()
                 isAuthenticated = session.isSignedIn
                 if isAuthenticated {
                     let user = try await Amplify.Auth.getCurrentUser()
                     currentUser = user
+                } else {
+                    isAuthenticated = false
+                    currentUser = nil
                 }
             } catch {
                 print("[Auth] Session check failed: \(error)")
                 isAuthenticated = false
+                currentUser = nil
             }
         }
     }
@@ -111,20 +100,7 @@ class AuthService: ObservableObject {
             return
         }
 
-        if useMockAuth {
-            // Mock authentication for development
-            try? await Task.sleep(nanoseconds: 500_000_000)  // Simulate network delay
-            if password.count >= 6 {
-                isAuthenticated = true
-                currentUser = MockAuthUser(username: email)
-                UserDefaults.standard.set(true, forKey: "mockIsAuthenticated")
-            } else {
-                errorMessage = "Invalid credentials (mock: password must be 6+ chars)"
-            }
-            return
-        }
-
-        // Real Amplify Auth
+        // Amplify Auth sign in
         do {
             let result = try await Amplify.Auth.signIn(username: email, password: password)
             if result.isSignedIn {
@@ -136,7 +112,7 @@ class AuthService: ObservableObject {
                 errorMessage = "Additional verification required"
             }
         } catch let error as AuthError {
-            errorMessage = error.errorDescription
+            errorMessage = error.errorDescription ?? "Sign in failed"
         } catch {
             errorMessage = "Sign in failed: \(error.localizedDescription)"
         }
@@ -147,28 +123,19 @@ class AuthService: ObservableObject {
     /// AMPLIFY SIGN UP FLOW:
     /// 1. Create user in Cognito user pool
     /// 2. Cognito sends verification email/SMS
-    /// 3. User confirms with verification code
+    /// 3. User confirms with verification code (call confirmSignUp)
     /// 4. User can then sign in
     func signUp(email: String, password: String) async {
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
 
-        if useMockAuth {
-            try? await Task.sleep(nanoseconds: 500_000_000)
-            if password.count >= 8 {
-                errorMessage = nil
-                // In mock mode, auto-confirm and sign in
-                isAuthenticated = true
-                currentUser = MockAuthUser(username: email)
-                UserDefaults.standard.set(true, forKey: "mockIsAuthenticated")
-            } else {
-                errorMessage = "Password must be at least 8 characters"
-            }
+        // Input validation
+        guard !email.isEmpty, !password.isEmpty else {
+            errorMessage = "Email and password are required"
             return
         }
 
-        // Real Amplify Auth
         do {
             let options = AuthSignUpRequest.Options(
                 userAttributes: [AuthUserAttribute(.email, value: email)]
@@ -179,16 +146,56 @@ class AuthService: ObservableObject {
                 options: options
             )
             switch result.nextStep {
-            case .confirmUser:
-                errorMessage = "Please check your email for verification code"
+            case .confirmUser(let details):
+                // User needs to confirm with verification code
+                errorMessage = nil  // Clear any previous errors
+                // Note: The UI should handle showing the confirmation screen
+                // This method doesn't throw, so the caller knows to proceed to confirmation
             case .done:
-                // Auto-confirmed, proceed to sign in
+                // Auto-confirmed (unlikely in production, but possible)
+                // Proceed to sign in
                 await signIn(email: email, password: password)
             }
         } catch let error as AuthError {
-            errorMessage = error.errorDescription
+            errorMessage = error.errorDescription ?? "Sign up failed"
         } catch {
             errorMessage = "Sign up failed: \(error.localizedDescription)"
+        }
+    }
+
+    /// Confirm sign up with verification code.
+    ///
+    /// AMPLIFY CONFIRMATION FLOW:
+    /// 1. User receives verification code via email/SMS
+    /// 2. User enters code in UI
+    /// 3. This method confirms the user account
+    /// 4. User can then sign in
+    func confirmSignUp(email: String, confirmationCode: String) async {
+        isLoading = true
+        errorMessage = nil
+        defer { isLoading = false }
+
+        // Input validation
+        guard !email.isEmpty, !confirmationCode.isEmpty else {
+            errorMessage = "Email and confirmation code are required"
+            return
+        }
+
+        do {
+            let result = try await Amplify.Auth.confirmSignUp(
+                for: email,
+                confirmationCode: confirmationCode
+            )
+            if result.isSignUpComplete {
+                // Confirmation successful, user can now sign in
+                errorMessage = nil
+            } else {
+                errorMessage = "Confirmation incomplete"
+            }
+        } catch let error as AuthError {
+            errorMessage = error.errorDescription ?? "Confirmation failed"
+        } catch {
+            errorMessage = "Confirmation failed: \(error.localizedDescription)"
         }
     }
 
@@ -201,15 +208,8 @@ class AuthService: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        if useMockAuth {
-            isAuthenticated = false
-            currentUser = nil
-            UserDefaults.standard.set(false, forKey: "mockIsAuthenticated")
-            return
-        }
-
         do {
-            _ = await Amplify.Auth.signOut()
+            _ = try await Amplify.Auth.signOut()
             isAuthenticated = false
             currentUser = nil
         } catch {
@@ -219,11 +219,4 @@ class AuthService: ObservableObject {
             currentUser = nil
         }
     }
-}
-
-// MARK: - Mock Auth User
-/// Mock implementation for development without AWS backend.
-struct MockAuthUser: AuthUser {
-    let username: String
-    var userId: String { username }
 }

@@ -1,5 +1,6 @@
 import SwiftUI
 import Amplify
+import AWSCognitoAuthPlugin
 
 // MARK: - TEACHING: App Entry Point
 /// @main marks this as the application entry point.
@@ -51,17 +52,25 @@ struct SwiftExperimentApp: App {
     /// 2. Handles token refresh automatically
     /// 3. Supports federated identity (Google, Apple, Facebook)
     /// 4. Built-in user management console in AWS
+    ///
+    /// CONFIGURATION PATTERN:
+    /// - Plugins must be added BEFORE calling configure()
+    /// - configure() reads from amplifyconfiguration.json at runtime
+    /// - This is called exactly once at app launch (in init())
+    /// - Never configure Amplify in SwiftUI View lifecycle methods
     private func configureAmplify() {
         do {
-            // TEACHING: In production, this reads from amplifyconfiguration.json
-            // For this experiment, we'll check if config exists and configure accordingly
+            // Add the Auth plugin before configuring
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            
+            // Configure Amplify - reads from amplifyconfiguration.json
             try Amplify.configure()
-            print("[Amplify] Successfully configured")
+            print("[Amplify] Successfully configured with Auth plugin")
         } catch {
             // TEACHING: Fail gracefully in development
             // In production, you might show an alert or retry
             print("[Amplify] Configuration failed: \(error)")
-            print("[Amplify] Running in mock mode for development")
+            fatalError("Failed to configure Amplify: \(error.localizedDescription)")
         }
     }
 }
