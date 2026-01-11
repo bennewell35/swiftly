@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+TEACHING: Info.plist
+This file contains essential app metadata and configuration.
+It's required for all iOS apps and defines:
+- App identity (name, bundle ID)
+- Capabilities and permissions
+- Launch screen configuration
+- Supported orientations
+-->
+<plist version="1.0">
+<dict>
+    <!-- Bundle Configuration -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+
+    <key>CFBundleDisplayName</key>
+    <string>Swift Experiment</string>
+
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>$(MARKETING_VERSION)</string>
+
+    <key>CFBundleVersion</key>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
+
+    <!-- Launch Screen Configuration -->
+    <key>UILaunchScreen</key>
+    <dict>
+        <key>UIColorName</key>
+        <string>LaunchBackgroundColor</string>
+    </dict>
+
+    <!-- Required Device Capabilities -->
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>arm64</string>
+    </array>
+
+    <!-- Supported Interface Orientations -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- Appearance -->
+    <key>UIUserInterfaceStyle</key>
+    <string>Automatic</string>
+
+    <!-- Privacy Descriptions (required for permissions) -->
+    <!-- TEACHING: Add these when you need specific permissions -->
+    <!--
+    <key>NSCameraUsageDescription</key>
+    <string>We need camera access to...</string>
+
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need photo library access to...</string>
+    -->
+
+    <!-- Network Configuration -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <!-- TEACHING: In production, remove this and use HTTPS only -->
+        <!-- For development, we allow arbitrary loads -->
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+    </dict>
+
+    <!-- URL Schemes for OAuth callbacks -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <!-- TEACHING: This is used for OAuth redirects from Cognito -->
+                <string>swiftexperiment</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>

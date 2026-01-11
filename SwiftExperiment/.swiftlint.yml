@@ -1,0 +1,140 @@
+# TEACHING: SwiftLint Configuration
+# SwiftLint enforces Swift style and conventions.
+# Similar to ESLint for JavaScript.
+
+# Include all rules by default
+# Disable specific rules that don't fit our style
+
+disabled_rules:
+  - trailing_whitespace          # Too noisy during development
+  - todo                         # We allow TODOs during development
+  - opening_brace                # Style preference
+
+# Enable optional rules that improve code quality
+opt_in_rules:
+  - array_init                   # Prefer Array(x) over x.map { $0 }
+  - attributes                   # Consistent attribute placement
+  - closure_end_indentation      # Proper closure formatting
+  - closure_spacing              # Spacing inside closures
+  - collection_alignment         # Align collection literals
+  - contains_over_filter_count   # Use contains instead of filter().count
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - empty_collection_literal     # Use [] instead of Array()
+  - empty_count                  # Use isEmpty instead of count == 0
+  - empty_string                 # Use isEmpty for empty string checks
+  - enum_case_associated_values_count
+  - explicit_init                # Require explicit .init
+  - fallthrough                  # Document fallthrough in switch
+  - fatal_error_message          # Require message in fatalError
+  - file_header                  # Consistent file headers
+  - first_where                  # Use first(where:) instead of filter().first
+  - flatmap_over_map_reduce
+  - force_unwrapping             # Avoid ! where possible
+  - identical_operands
+  - implicit_return              # Allow implicit return in single-expression closures
+  - implicitly_unwrapped_optional
+  - last_where
+  - legacy_multiple
+  - legacy_random
+  - literal_expression_end_indentation
+  - lower_acl_than_parent
+  - modifier_order               # Consistent modifier order
+  - multiline_arguments
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - operator_usage_whitespace
+  - overridden_super_call
+  - pattern_matching_keywords
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - private_action
+  - private_outlet
+  - prohibited_super_call
+  - reduce_into
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - single_test_class
+  - sorted_first_last
+  - sorted_imports
+  - static_operator
+  - toggle_bool
+  - trailing_closure
+  - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
+  - untyped_error_in_catch
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+
+# Configuration for specific rules
+line_length:
+  warning: 120
+  error: 150
+  ignores_comments: true
+  ignores_urls: true
+
+file_length:
+  warning: 500
+  error: 1000
+
+type_body_length:
+  warning: 300
+  error: 500
+
+function_body_length:
+  warning: 50
+  error: 100
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+type_name:
+  min_length: 3
+  max_length: 50
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  max_length:
+    warning: 50
+    error: 60
+  excluded:
+    - id    # Common identifier
+    - x     # Coordinates
+    - y
+    - i     # Loop counters
+    - j
+    - k
+    - to    # Common parameter name
+    - at
+
+nesting:
+  type_level: 2
+  function_level: 3
+
+# Paths to include/exclude
+included:
+  - Sources
+  - Tests
+
+excluded:
+  - .build
+  - DerivedData
+  - Pods
+  - Carthage
+  - Package.swift
+
+# Custom rules
+custom_rules:
+  # Require MARK comments for organization
+  mark_comment_spacing:
+    name: "MARK Comment Spacing"
+    regex: '\/\/\s*MARK:\s*-?\s*\S'
+    message: "MARK comments should have a space after the colon"
+    severity: warning
+
+# Reporter type (for CI)
+reporter: "xcode"
